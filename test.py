@@ -17,9 +17,9 @@ class TestHTMLSplitter(unittest.TestCase):
         """
         html = "<p>Hello, <b>world</b>! <i>Nice to meet you!</i></p>"
         fragments = list(split_message(html, max_len=30))
-        self.assertEqual(len(fragments), 2)  # Ожидаем, что будет 2 фрагмента
-        self.assertTrue(fragments[0].endswith("</b></p>") or fragments[0].endswith("</p>"))  # Проверяем корректное закрытие тегов
-        self.assertTrue(fragments[1].startswith("<p>"))  # Проверяем, что следующий фрагмент начинается с <p>
+        self.assertEqual(len(fragments), 2)  
+        self.assertTrue(fragments[0].endswith("</b></p>") or fragments[0].endswith("</p>"))  
+        self.assertTrue(fragments[1].startswith("<p>"))  
 
     def test_nested_tags(self):
         """
@@ -27,9 +27,9 @@ class TestHTMLSplitter(unittest.TestCase):
         """
         html = "<div><p>" + "A" * 4000 + "</p><p>" + "B" * 100 + "</p></div>"
         fragments = list(split_message(html, max_len=4096))
-        self.assertEqual(len(fragments), 2)  # Ожидаем, что будет 2 фрагмента
-        self.assertTrue(fragments[0].endswith("</p></div>") or fragments[0].endswith("</p>"))  # Проверяем корректное закрытие <p> или <div>
-        self.assertTrue(fragments[1].startswith("<div><p>") or fragments[1].startswith("<p>"))  # Проверяем, что следующий фрагмент корректно открывается
+        self.assertEqual(len(fragments), 2)  
+        self.assertTrue(fragments[0].endswith("</p></div>") or fragments[0].endswith("</p>"))  
+        self.assertTrue(fragments[1].startswith("<div><p>") or fragments[1].startswith("<p>")) 
 
     def test_long_text(self):
         """
@@ -37,7 +37,7 @@ class TestHTMLSplitter(unittest.TestCase):
         """
         html = "<p>" + "A" * 5000 + "</p>"
         with self.assertRaises(ValueError):
-            list(split_message(html, max_len=4096))  # Проверяем, что выбрасывается ValueError
+            list(split_message(html, max_len=4096))  
 
     def test_fragment_lengths(self):
         """
@@ -46,7 +46,7 @@ class TestHTMLSplitter(unittest.TestCase):
         html = "<p>" + "A" * 100 + "</p>" * 50
         fragments = list(split_message(html, max_len=500))
         for fragment in fragments:
-            self.assertLessEqual(len(fragment), 500)  # Проверяем, что каждый фрагмент не превышает max_len
+            self.assertLessEqual(len(fragment), 500) 
 
 if __name__ == "__main__":
     unittest.main()
